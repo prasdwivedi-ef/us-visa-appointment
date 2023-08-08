@@ -227,8 +227,9 @@ const axios = require('axios');
       // We are logged in now. Check available dates from the API
       {
           const targetPage = page;
-          const response = await targetPage.goto('https://ais.usvisa-info.com/en-' + region + '/niv/schedule/' + appointmentId + '/appointment/days/' + consularId + '.json?appointments[expedite]=false');
-
+          await targetPage.setExtraHTTPHeaders({'Accept': 'application/json, text/javascript, */*; q=0.01', 'X-Requested-With': 'XMLHttpRequest'});
+          const response = await targetPage.goto('https://ais.usvisa-info.com/en-' + region + '/niv/schedule/' + appointmentId + '/appointment/days/' + consularId + '.json?appointments%5Bexpedite%5D=false');
+         // https://ais.usvisa-info.com/en-gb/niv/schedule/50483002/appointment/days/17.json?appointments%5Bexpedite%5D=false
           const availableDates = JSON.parse(await response.text());
 
           if (availableDates.length <= 0) {
